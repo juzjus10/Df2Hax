@@ -29,11 +29,11 @@ namespace Df2Hax
         public float mobDistance = 1f;
 
 
-
-        public CF_db92566227facddbbd93793c41b7b5ed6c81dd69_Corpsefuscated[] zombie;
+        public Rigidbody rbody;
+        public CF_d827a7148ec34455d8ac2cdd5c9e72a0ac20ec4c_Corpsefuscated[] zombie;
         public GameObject localPlayer;
         public GameObject enemy;
-        public CF_87d3f99cb497978c41f518c3512f084d8c09f579_Corpsefuscated cameraRig;
+        public CF_1a91fe8c9c9b331adfbcea7c04e0b8e1d54e6e11_Corpsefuscated cameraRig;
        // public CF_4ce5915a67e976333f555f231b028fd974eaeb23_Corpsefuscated melee;
         //public CF_b97b74cfde6c66841c7052617061ff78b12b21aa_Corpsefuscated weapon;
         //  public CF_fbdbab9b6307212633f025c0f695b3c0183dbf38_Corpsefuscated damage; 
@@ -45,9 +45,10 @@ namespace Df2Hax
         {
            
             StartCoroutine(UpdateEntities(0));
+            rbody = GetComponent<Rigidbody>();
             localPlayer = GameObject.Find("Player");
             enemy = GameObject.Find("Enemy");
-            cameraRig = FindObjectOfType<CF_87d3f99cb497978c41f518c3512f084d8c09f579_Corpsefuscated>();
+            cameraRig = FindObjectOfType<CF_1a91fe8c9c9b331adfbcea7c04e0b8e1d54e6e11_Corpsefuscated>();
             //weapon = FindObjectOfType<CF_b97b74cfde6c66841c7052617061ff78b12b21aa_Corpsefuscated>();
             //  damage = FindObjectOfType<CF_fbdbab9b6307212633f025c0f695b3c0183dbf38_Corpsefuscated>();
 
@@ -113,20 +114,26 @@ namespace Df2Hax
                 {
 
                     Transform[] allChildren = zombs.transform.GetComponentsInChildren<Transform>();
-
-                    zombs.CF_eca5d83e8b4ef3c9df4fcb2ece96c8af8953082b_Corpsefuscated = 1;
+                    //Dumb AI
+                    zombs.CF_f9f42368e710720c7744a0be70f511546854ef44_Corpsefuscated = 1;
                    
-
-                    //if (Input.GetKeyDown(KeyCode.V))
+                    // Autokill Zombies SO fuckin risky 
+                    //if (Input.GetKey(KeyCode.V))
                     //{
-                       
+                    //    if (zombs.health > 0)
+                    //    {
+                    //        zombs.CF_063207babd8b7f693c091dd0da6e760050b3601f_Corpsefuscated(Vector3.zero, localPlayer, null, 1, 1, 1, 1, 1, null, false, true, (int)zombs.health, false);
+                    //        break;
+                    //    }
+                        
                     //}
-                 
+                    
 
                     if (mobVac)
                     {
                         try
                         {
+                            rbody.constraints = RigidbodyConstraints.FreezePosition;
                             zombs.transform.position = new Vector3(this.localPlayer.transform.position.x, this.localPlayer.transform.position.y, this.localPlayer.transform.position.z + mobDistance);
                         }
                         catch
@@ -201,7 +208,7 @@ namespace Df2Hax
             BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
             try
             {
-                var cameraRigField = typeof(CF_87d3f99cb497978c41f518c3512f084d8c09f579_Corpsefuscated).GetField("CF_ea1d50c4ec31852fa6087c121258349db4c1908d_Corpsefuscated", bindFlags);
+                var cameraRigField = typeof(CF_1a91fe8c9c9b331adfbcea7c04e0b8e1d54e6e11_Corpsefuscated).GetField("CF_bd53525239991bcaa3c3093ccb6cc24eb052774e_Corpsefuscated", bindFlags);
                 cameraRigField.SetValue(cameraRig, fov);
             } catch
             {
@@ -218,7 +225,7 @@ namespace Df2Hax
             yield return new WaitForSeconds(time);
             try
             {
-                zombie = FindObjectsOfType<CF_db92566227facddbbd93793c41b7b5ed6c81dd69_Corpsefuscated>();              
+                zombie = FindObjectsOfType<CF_d827a7148ec34455d8ac2cdd5c9e72a0ac20ec4c_Corpsefuscated>();              
             } catch
             {
                 UnityEngine.Debug.Log("No Entity");
